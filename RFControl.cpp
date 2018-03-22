@@ -4,6 +4,8 @@
 #include "arduino_functions.h"
 #endif
 
+#define DEBUG_OUT 0
+
 #define STATUS_WAITING 0
 #define STATUS_RECORDING_0 1
 #define STATUS_RECORDING_1 2
@@ -12,6 +14,10 @@
 #define STATUS_RECORDING_END 5
 
 #define PULSE_LENGTH_DIVIDER 4
+
+#ifdef DEBUG_OUT
+const char* state2string[] = {"W", "R0", "R1", "R2", "R3", "E"};
+#endif
 
 #define MIN_FOOTER_LENGTH (3500 / PULSE_LENGTH_DIVIDER)
 #define MIN_PULSE_LENGTH (100 / PULSE_LENGTH_DIVIDER)
@@ -137,9 +143,10 @@ void startRecording(unsigned int duration) {
 }
 
 void recording(unsigned int duration, int package) {
-#ifdef RF_CONTROL_SIMULATE_ARDUINO
+//#ifdef RF_CONTROL_SIMULATE_ARDUINO
+#ifdef DEBUG_OUT
   //nice string builder xD
-  printf("%s:", sate2string[state]);
+  printf("%s:", state2string[state]);
   if (data_end[package] < 10)
     printf(" rec_pos=  %i", data_end[package]);
   else if (data_end[package] < 100)
@@ -330,7 +337,7 @@ void handleInterrupt() {
 }
 
 bool RFControl::compressTimings(unsigned int buckets[8], unsigned int *timings, unsigned int timings_size) {
-  Serial.println("clearing buckets 1");
+  // Serial.println("clearing buckets 1");
   for(int j = 3; j < 8; j++ ) {
     buckets[j] = 0;
   }
