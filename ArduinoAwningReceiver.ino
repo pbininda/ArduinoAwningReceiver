@@ -48,11 +48,11 @@ void toggle_relay(int pin) {
   Serial.print(pin);
   Serial.println(" on");
   digitalWrite(pin, HIGH);
-  delay(500);                     // press relay for 100ms
+  delay(800);
   Serial.print(pin);
   Serial.println(" off");
   digitalWrite(pin, LOW);
-  // delay(500);                    // cooldown of 1 seconds  
+  delay(300);
 }
 
 
